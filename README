@@ -1,0 +1,20 @@
+JSWorkshift
+
+A JavaScript Workshift Recorder component that replicates the behavior of a 
+physical punch clock in the browser. This component can communicate with a simple
+server side webservice via json to serialize workshifts.
+
+Supported options to Workshift constructor:
+
+target
+    A HTML entity that will contain the workshifts.
+
+toggle
+    A clickable HTML entity that will serve to Start and Stop the workshift timer.
+
+startURI
+    An optional URI that if specified will be expected to create and return a 
+    workshift when the toggle entity is clicked.
+    
+stopURI
+    An optional URI that if specified will receive the stop time of a workshift.
