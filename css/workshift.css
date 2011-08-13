@@ -1,0 +1,22 @@
+﻿div.ws_start, div.ws_stop, div.ws_diff {
+	float: left;
+	width: 5.4em;
+	font-size: medium;
+	text-align: right;
+}
+
+div.ws_row {
+	height: 2em;
+}
+
+div.ws_date {
+	float: left;
+	width: 5.5em;
+	margin-left: -5.5em;
+	text-align: right;
+}
+
+div.ws_day {
+	margin-bottom: 0.8em;
+	margin-left: 5.0em;
+}
