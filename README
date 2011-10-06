@@ -18,3 +18,6 @@ startURI
     
 stopURI
     An optional URI that if specified will receive the stop time of a workshift.
+
+rowTemplate
+    Optional JQuery tmpl script that allows custom rendering of a workshift row

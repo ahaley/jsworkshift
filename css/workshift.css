@@ -3,6 +3,7 @@
 	width: 5.4em;
 	font-size: medium;
 	text-align: right;
+	margin-right: 0.8em;
 }
 
 div.ws_row {
@@ -12,7 +13,7 @@ div.ws_row {
 div.ws_date {
 	float: left;
 	width: 5.5em;
-	margin-left: -5.5em;
+	margin-left: -6.0em;
 	text-align: right;
 }
 

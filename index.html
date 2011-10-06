@@ -6,25 +6,42 @@
 	<link rel="stylesheet" type="text/css" href="css/workshift.css" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/workshift.js"></script>
+	<script type="text/javascript" src="js/vendor/jquery.tmpl.min.js"></script>
 	<title>JSWorkshift Test Page</title>
 </head>
 
 <body>
+<script id="WSRowTemplate" type="text/x-jquery-tmpl">
+<div class="ws_row">
+	<div class="ws_start">${Start}</div>
+	<div class="ws_stop">${Stop}</div>
+</script>
 	<script>
 		$(function () {
+
+			var rowTemplate = $('#WSRowTemplate')
+
 			var myWorkshift = new Workshift({
 				'target': $('#workshift_div'),
-				'toggle': $('#workshift_toggle')
+				'toggle': $('#workshift_toggle'),
+				'rowTemplate': rowTemplate 
 			});
 
-			myWorkshift.renderWorkshift([
-				{ start: "2011-01-11T13:11-04:00", stop: "2011-01-11T17:10-4:00" },
-				{ start: "2011-01-11T08:01-04:00", stop: "2011-01-11T11:47-4:00" },
-				{ start: "2011-01-10T13:01-02:00", stop: "2011-01-10T16:49-4:00" },
-				{ start: "2011-01-10T07:46-04:00", stop: "2011-01-10T11:47-4:00" },
-				{ start: "2011-01-09T13:01-02:00", stop: "2011-01-09T16:49-4:00" },
-				{ start: "2011-01-09T07:46-04:00", stop: "2011-01-09T11:47-4:00" }
-			]);
+			var workshiftsJson = [
+				{ start: "1/1/2011 7:46:00 AM", stop: "1/1/2011 11:47 AM", is_completed: true },
+				{ start: "1/1/2011 1:00:00 PM", stop: "1/1/2011 5:04:00 PM", is_completed: true },
+				{ start: "1/2/2011 8:00:00 AM", stop: "1/2/2011 12:10 PM", is_completed: true },
+				{ start: "1/2/2011 1:10 PM", stop: "1/2/2011 4:58 PM", is_completed: true }
+			];
+
+			myWorkshift.renderWorkshift(workshiftsJson, function (ws) {
+				var row = rowTemplate.tmpl({
+					'Start': (new Date(ws.start)).toFormatTime(),
+					'Stop': (new Date(ws.stop)).toFormatTime()
+				});
+				$('.ws_project select', row).val(ws.project_id);
+				return row;
+			});
 				
 		});
 	</script>
