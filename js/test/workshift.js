@@ -27,9 +27,11 @@ $(document).ready(function () {
 
 	test("createWsRow", function () {
 		var myWs = new Workshift();
-		var d1 = new Date(2010, 1, 1, 1, 30);
-		var d2 = new Date(2010, 1, 1, 2, 30);
+		var d1 = new Date("2010-1-1 1:30 AM");
+		var d2 = new Date("2010-1-1 2:30 AM");
+
 		var wsRow = myWs.createWsRow(d1, d2);
+
 		var children = wsRow.children();
 		equals(children.length, 2, "created two rows");
 		equals($(children[0]).html(), '1:30:00:AM', 'start date for created ws_row');
