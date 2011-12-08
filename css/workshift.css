@@ -13,11 +13,16 @@ div.ws_row {
 div.ws_date {
 	float: left;
 	width: 5.5em;
-	margin-left: -6.0em;
+	margin-left: -14.0em;
 	text-align: right;
 }
 
 div.ws_day {
 	margin-bottom: 0.8em;
-	margin-left: 5.0em;
+	margin-left: 14.0em;
+}
+
+div.ws_day select {
+	float: left;
+	margin-left: -9.0em;
 }
