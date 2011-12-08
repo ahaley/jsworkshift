@@ -20,4 +20,7 @@ stopURI
     An optional URI that if specified will receive the stop time of a workshift.
 
 rowTemplate
-    Optional JQuery tmpl script that allows custom rendering of a workshift row
+    Optional jQuery tmpl script that allows custom rendering of a workshift row.
+
+additionalDateElement
+    Optional jQuery wrapped set containing a dom element to displayed per workshift date.
