@@ -68,6 +68,9 @@ var Workshift = (function () {
                 if (options.rowTemplate) {
                     this.rowTemplate = options.rowTemplate;
                 }
+                if (options.additionalDateElement) {
+                	this.additionalDateElement = options.additionalDateElement;
+                }
             }
         }
 
@@ -201,9 +204,15 @@ var Workshift = (function () {
         }
 
         var createWsDay = function (currentDate) {
-            return $('<div class="ws_day"></div>')
-                .append($('<div class="ws_date"></div>')
+        	var ws_day = $('<div class="ws_day"></div>')
+        		.append($('<div class="ws_date"></div>')
                     .append(currentDate.toFormatDate()));
+                    
+            if (that.additionalDateElement) {
+            	ws_day.append(that.additionalDateElement.clone());
+            }
+	            
+            return ws_day;
         }
     
         var insertWsRow = function (startDate, stopDate) {
