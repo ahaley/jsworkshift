@@ -1,6 +1,6 @@
 JSWorkshift
 
-A JavaScript Workshift Recorder component that replicates the behavior of a 
+A JavaScript Workshift Recorder component that replicates the behavior of a
 physical punch clock in the browser. This component can communicate with a
 simple server side webservice via json to serialize workshifts.
 
@@ -14,16 +14,20 @@ toggle
     timer.
 
 startURI
-    An optional URI that if specified will be expected to create and return a 
+    An optional URI that if specified will be expected to create and return a
     workshift when the toggle entity is clicked.
 
 stopURI
-    An optional URI that if specified will receive the stop time of a workshift.
+    An optional URI that if specified will receive the stop time of a
+    workshift.
+
 totalHour
     A DOM element that jsWorkshift will populate with the workshift sum.
 
 rowTemplate
-    Optional jQuery tmpl script that allows custom rendering of a workshift row.
+    Optional jQuery tmpl script that allows custom rendering of a workshift
+    row.
+
 additionalDateRenderer
     Optional callback that accepts a workshift object and returns a new DOM
     element to insert after the date element for each workshift day.
