@@ -28,6 +28,9 @@ var Workshift = (function () {
                 if (options.rowTemplate) {
                     this.rowTemplate = options.rowTemplate;
                 }
+                if (options.totalHours) {
+                    this.totalHours = options.totalHours;
+                }
                 if (options.additionalDateRenderer) {
                 	this.additionalDateRenderer = options.additionalDateRenderer;
                 }
@@ -43,6 +46,8 @@ var Workshift = (function () {
             $.each(workshifts, function(index, workshift) {
                 var startDate = new Date(workshift.start);
                 var stopDate = new Date(workshift.stop);
+
+                workshift.diff = Date.diff(startDate, stopDate);
 
                 if (!startDate.isSameDay(currentDate)) {
                     currentDate = startDate;
@@ -66,6 +71,11 @@ var Workshift = (function () {
                     that.startTime = new Date(lastWorkshift.start);
                     resumeTimer(new Date(lastWorkshift.stop));
                 }
+            }
+
+            if (that.totalHours) {
+                var sum = WorkshiftDiff.sumSelector('.ws_diff');
+                that.totalHours.html(sum);
             }
         }
 
@@ -106,7 +116,9 @@ var Workshift = (function () {
         var _startTimer = function(startTime, stopTime) {
             stopTime = stopTime || startTime;
             that.startTime = startTime;
-            that.wsStop = $('.ws_stop', insertWsRow(startTime, startTime));
+            var createdRow = insertWsRow(startTime, startTime);
+            that.wsStop = $('.ws_stop', createdRow);
+            that.wsDiff = $('.ws_diff', createdRow);
             _startTimerCounter(startTime);
         }
 
@@ -118,6 +130,18 @@ var Workshift = (function () {
                 var msStopLocal = (new Date()).getTime();
                 var stopServerPrime = new Date(msStopLocal - msStartLocal + msStartServer);
                 that.wsStop.html(stopServerPrime.toFormatTime());
+
+                var diff = Date.diff(that.startTime, stopServerPrime);
+
+                if (that.wsDiff.html() !== diff) {
+                    that.wsDiff.html(diff);
+
+                    if (that.totalHours) {
+                        that.totalHours.html("");
+                        that.totalHours.html(WorkshiftDiff.sumSelector('.ws_diff'));
+                    }
+                }
+
                 that.timerID = setTimeout(updateClock, 1000);
             }
             that.timerID = setTimeout(updateClock, 1000);
@@ -130,6 +154,7 @@ var Workshift = (function () {
                 that.toggle.click(function () { stopTimer() });
             }
             that.wsStop = $('.ws_stop:first', that.target);
+            that.wsDiff = $('.ws_diff:first', that.target);
             _startTimerCounter(resumeTime);
         }
 
@@ -165,7 +190,8 @@ var Workshift = (function () {
             if (that.rowTemplate) {
                 return that.rowTemplate.tmpl({
                     'Start': startDate.toFormatTime(),
-                    'Stop': stopDate.toFormatTime()
+                    'Stop': stopDate.toFormatTime(),
+                    'Diff': '0h 0m'
                 });
             }
 
