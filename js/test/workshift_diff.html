@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="qunit.css" type="text/css" />
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="qunit.js"></script>
+  <script type="text/javascript" src="../workshift_diff.js"></script>
+  <script type="text/javascript" src="workshift_diff.js"></script>
+</head>
+<body>
+<h1 id="qunit-header">Workshift QUnit Page</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">test markup, will be hidden</div>
+
+<div style="visibility: hidden;">
+
+    <div class="ws_day">
+        <div class="ws_date">9/10/2011</div>
+
+        <div class="ws_row">
+            <div class="ws_start">12:04PM</div>
+            <div class="ws_stop">5:31PM</div>
+            <div class="ws_diff">4h 27m</div>
+        </div>
+
+        <div class="ws_row">
+            <div class="ws_start">8:04AM</div>
+            <div class="ws_stop">11:58AM</div>
+            <div class="ws_diff">3h 54m</div>
+        </div>
+    </div>
+
+    <div class="ws_day">
+        <div class="ws_date">9/9/2011</div>
+
+        <div class="ws_row">
+            <div class="ws_start">12:04PM</div>
+            <div class="ws_stop">5:58AM</div>
+            <div class="ws_diff">4h 54m</div>
+        </div>
+
+        <div class="ws_row">
+            <div class="ws_start">7:58AM</div>
+            <div class="ws_stop">11:56AM</div>
+            <div class="ws_diff">3h 58m</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
