@@ -52,7 +52,7 @@ var Workshift = (function () {
                 if (!startDate.isSameDay(currentDate)) {
                     currentDate = startDate;
                     that.target.append(wsDay);
-                    wsDay = createWsDay(currentDate, workshift.lunch_minutes);
+                    wsDay = createWsDay(currentDate, workshift);
                 }
 
                 var createdRow = options.rowRenderer
@@ -200,17 +200,14 @@ var Workshift = (function () {
                 .append($('<div class="ws_stop"></div>').append(stopDate.toFormatTime()));
         }
 
-        var createWsDay = function (currentDate, lunchMinutes) {
+        var createWsDay = function (currentDate, workshift) {
         	var ws_day = $('<div class="ws_day"></div>')
         		.append($('<div class="ws_date"></div>')
                     .append(currentDate.toFormatDate()));
 
-            if (lunchMinutes === null)
-                lunchMinutes = 30;
-
             if (that.additionalDateRenderer
                 && $.isFunction(that.additionalDateRenderer)) {
-                ws_day.append(that.additionalDateRenderer(lunchMinutes));
+                ws_day.append(that.additionalDateRenderer(workshift));
             }
 	            
             return ws_day;

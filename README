@@ -22,5 +22,6 @@ stopURI
 rowTemplate
     Optional jQuery tmpl script that allows custom rendering of a workshift row.
 
-additionalDateElement
-    Optional jQuery wrapped set containing a dom element to displayed per workshift date.
+additionalDateRenderer
+    Optional callback that accepts a workshift object and returns a new DOM element to 
+    insert after the date element for each workshift day.

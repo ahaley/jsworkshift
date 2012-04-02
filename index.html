@@ -23,8 +23,8 @@
 
 $(function () {
     var workshiftsJson = [
-        { start: "1/3/2011 1:01 PM", stop: "1/3/2011 4:48 PM", is_completed: true },
-        { start: "1/3/2011 8:14 AM", stop: "1/3/2011 11:50 AM", is_completed: true },
+        { start: "1/3/2011 1:01 PM", stop: "1/3/2011 4:48 PM", is_completed: true, lunch_minutes: 60 },
+        { start: "1/3/2011 8:14 AM", stop: "1/3/2011 11:50 AM", is_completed: true, lunch_minutes: 60 },
         { start: "1/2/2011 1:10 PM", stop: "1/2/2011 4:58 PM", is_completed: true },
         { start: "1/2/2011 8:00 AM", stop: "1/2/2011 12:10 PM", is_completed: true },
         { start: "1/1/2011 1:00 PM", stop: "1/1/2011 5:04 PM", is_completed: true },
@@ -37,9 +37,11 @@ $(function () {
         'toggle': $('#workshift_toggle'),
         'totalHours': $('#total_hours'),
         'rowTemplate': rowTemplate,
-        'additionalDateRenderer': function (lunchMinutes) {
-          var lunchSelect = $('<select><option>30m lunch</option><option>1hr lunch</option><option>no lunch</option></select>');
-          lunchSelect.val(lunchMinutes);
+        'additionalDateRenderer': function (workshift) {
+          var lunchSelect = $('<select><option value=30>30m lunch</option><option value=60>1hr lunch</option><option value=0>no lunch</option></select>');
+          if (workshift && workshift.lunch_minutes) {
+            lunchSelect.val(workshift.lunch_minutes);
+          }
           return lunchSelect;
         }
     });
