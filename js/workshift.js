@@ -28,13 +28,13 @@ var Workshift = (function () {
                 if (options.rowTemplate) {
                     this.rowTemplate = options.rowTemplate;
                 }
-                if (options.additionalDateElement) {
-                	this.additionalDateElement = options.additionalDateElement;
+                if (options.additionalDateRenderer) {
+                	this.additionalDateRenderer = options.additionalDateRenderer;
                 }
             }
         }
 
-        var renderWorkshift = function (workshifts, rowRenderer) {
+        var renderWorkshift = function (workshifts, options) {
 
             var currentDate = null,
                 wsDay = null,
@@ -50,8 +50,9 @@ var Workshift = (function () {
                     wsDay = createWsDay(currentDate);
                 }
 
-                var createdRow = $.isFunction(rowRenderer) ?
-                    rowRenderer(workshift) :
+                var createdRow = options.rowRenderer
+                    && $.isFunction(options.rowRenderer) ?
+                    options.rowRenderer(workshift) :
                     createWsRow(startDate, stopDate);
 
                 wsDay.append(createdRow);
@@ -68,8 +69,18 @@ var Workshift = (function () {
             }
         }
 
+        var _setButtonText = function (text) {
+            if (that.buttonText) {
+                that.buttonText.text(text);
+            }
+            else if (that.toggle) {
+                that.toggle.val(text);
+            }
+        }
+
         var startTimer = function () {
-            that.toggle.val('Stop');
+            _setButtonText('Stop');
+
             that.toggle.unbind('click');
             that.toggle.click(function () { stopTimer() });
 
@@ -113,9 +124,11 @@ var Workshift = (function () {
         }
 
         var resumeTimer = function (resumeTime) {
-            that.toggle.val('Stop');
-            that.toggle.unbind('click');
-            that.toggle.click(function () { stopTimer() });
+            if (that.toggle) {
+                _setButtonText('Stop');
+                that.toggle.unbind('click');
+                that.toggle.click(function () { stopTimer() });
+            }
             that.wsStop = $('.ws_stop:first', that.target);
             _startTimerCounter(resumeTime);
         }
@@ -124,7 +137,6 @@ var Workshift = (function () {
             var scaffoldDate = _getScaffoldDate();
 
             if (that.stopURI) {
-                
                 var data = {
                     start: that.startTime.toISOString()
                 }
@@ -144,13 +156,12 @@ var Workshift = (function () {
         var _stopTimer = function(stoptime) {
             clearTimeout(that.timerID);
             that.wsStop.html(stoptime.toFormatTime());
-            that.toggle.val('Start');
+            _setButtonText('Start');
             that.toggle.unbind('click');
             that.toggle.click(function () { startTimer() });
         }
 
         var createWsRow = function (startDate, stopDate) {
-            
             if (that.rowTemplate) {
                 return that.rowTemplate.tmpl({
                     'Start': startDate.toFormatTime(),
@@ -167,9 +178,10 @@ var Workshift = (function () {
         	var ws_day = $('<div class="ws_day"></div>')
         		.append($('<div class="ws_date"></div>')
                     .append(currentDate.toFormatDate()));
-                    
-            if (that.additionalDateElement) {
-            	ws_day.append(that.additionalDateElement.clone());
+
+            if (that.additionalDateRenderer
+                && $.isFunction(that.additionalDateRenderer)) {
+                ws_day.append(that.additionalDateRenderer());
             }
 	            
             return ws_day;
@@ -177,10 +189,17 @@ var Workshift = (function () {
     
         var insertWsRow = function (startDate, stopDate) {
             var wsRow = createWsRow(startDate, stopDate);
-            var wsDate = $('.ws_date:first', that.target);
-            var currentDate = new Date(wsDate.html());
-            if (currentDate.isSameDay(startDate)) {
-                wsDate.after(wsRow);
+            var currentDateContainer = $('.ws_date:first', that.target);
+
+            if (startDate.isSameDay(currentDateContainer.html())) {
+                var insertion = $('.ws_day > .ws_row:first', that.target);
+
+                if (insertion.length > 0) {
+                    insertion.before(wsRow);
+                }
+                else {
+                    currentDateContainer.parent().children().append(wsRow);
+                }
             }
             else {
                 var wsDay = createWsDay(startDate);
